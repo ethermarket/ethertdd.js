@@ -9,7 +9,7 @@ contract example{
     }
 
     function setName(bytes32 name, address newAddress) returns (bool r) {
-        if (!isOwner() || msg.value < fee || (names[name] != 0x0 && names[name] != msg.sender)) {
+        if ((!isOwner() && msg.value < fee) || (names[name] != 0x0 && names[name] != msg.sender)) {
             return false;
         }
         names[name] = newAddress;
