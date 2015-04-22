@@ -44,7 +44,7 @@ Given the Q promise library, you can use `then` to chain transactions between bl
     web3.setProvider(new web3.providers.HttpProvider('http://localhost:8080'));
 
     var ethertdd = new EtherTDD(web3, Q);
-    var contract = ethertdd.Contract('contracts/example').create().then(function (contract) {
+    ethertdd.Contract('contracts/example').create().then(function (contract) {
         // This will be executed in the block after the one the
         // contract creation transaction was broadcast during.
         console.log(contract.owner());
@@ -58,6 +58,18 @@ Given the Q promise library, you can use `then` to chain transactions between bl
         } else {
             console.log("Failed to set fee!");
         }
+    });
+
+Given a previously deployed contract at address `0xe68c0c59974c6f24c799fa99ed7fba2176ee5ff6` with an ABI file at `contracts/example.abi` and a binary file at `contracts/example.binary`, you can create a contract object like so:
+
+    var web3 = require('web3');
+    web3.setProvider(new web3.providers.HttpProvider('http://localhost:8080'));
+
+    var ethertdd = new EtherTDD(web3, Q);
+    ethertdd.Contract('contracts/example')
+    .load('0xe68c0c59974c6f24c799fa99ed7fba2176ee5ff6')
+    .then(function (contract) {
+        console.log(contract.owner());
     });
 
 `create` optionally takes the same arguments as [web3.eth.sendTransaction](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethsendtransaction): `transactionObject` and `callback`.
